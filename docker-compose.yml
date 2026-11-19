@@ -1,0 +1,81 @@
+services:
+  # 1. PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: restaurant_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres123}
+      POSTGRES_DB: ${DB_NAME:-restaurant_db}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - restaurant_network
+
+  # 2. Redis (Phục vụ cho BullMQ / Cache)
+  redis:
+    image: redis:7-alpine
+    container_name: restaurant_redis
+    restart: always
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - restaurant_network
+
+  # 3. Backend (NestJS Application)
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: restaurant_backend
+    restart: always
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres123}
+      DB_NAME: ${DB_NAME:-restaurant_db}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - restaurant_network
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  restaurant_network:
+    driver: bridge
+
+# ----chạy dev
+## 1. Khởi chạy riêng Database và Redis
+#docker compose up -d postgres redis
+# 2. Sau đó chạy backend trực tiếp bằng terminal
+#pnpm run start:dev
+
+#DATABASE_URL="postgresql://postgres:postgres123@localhost:5432/restaurant_db?schema=public"
+#REDIS_HOST="localhost"
+#REDIS_PORT=6379
+
+#-----buid toàn bộ 
+# Build và chạy ngầm toàn bộ dịch vụ (Backend, Postgres, Redis)
+#docker compose up --build -d
+# Xem log các container đang chạy
+#docker compose logs -f
+# Dừng toàn bộ hệ thống
+#docker compose down
