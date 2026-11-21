@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Menu } from "src/modules/menu/entities/menu.entity";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity("categories")
 export class Category {
@@ -13,6 +14,9 @@ export class Category {
 
   @Column({ default: true })
   is_active: boolean;
+
+  @OneToMany(() => Menu, (menu) => menu.category)
+  menu: Menu[];
 
   @CreateDateColumn()
   created_at: Date;
