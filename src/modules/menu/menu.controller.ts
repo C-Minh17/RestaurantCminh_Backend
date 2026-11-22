@@ -51,6 +51,13 @@ export class MenuController {
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN)
+  @Put("active/:id")
+  async updateActiveMenu(@Param("id") id: string) {
+    return await this.menuService.updateActiveMenu(id);
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.ADMIN)
   @Delete("/:id")
   async deleteMenu(@Param("id") id: string) {
     return await this.menuService.deleteMenu(id);

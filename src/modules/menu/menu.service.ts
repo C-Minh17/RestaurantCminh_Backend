@@ -112,5 +112,19 @@ export class MenuService {
     return await this.menuRepository.save(menu);
   }
 
+  async updateActiveMenu(id: string) {
+    const menu = await this.menuRepository.findOne({
+      where: { id }
+    })
+
+    if (!menu) {
+      throw new NotFoundException("menu not found")
+    }
+
+    menu.is_active = !menu.is_active;
+
+    return await this.menuRepository.save(menu);
+  }
+
 
 }
