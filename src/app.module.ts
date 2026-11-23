@@ -5,6 +5,7 @@ import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { MenuModule } from './modules/menu/menu.module';
+import { OptionValueModule } from './modules/option_value/option_value.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { MenuModule } from './modules/menu/menu.module';
     AuthModule,
     CategoriesModule,
     MenuModule,
+    OptionValueModule,
     // Các module tính năng khác
   ],
 })

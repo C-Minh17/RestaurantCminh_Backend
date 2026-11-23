@@ -20,6 +20,7 @@ export class MenuService {
     const menu = await this.menuRepository.find({
       relations: {
         category: true,
+        option_value: true,
       },
     });
     return menu;
@@ -30,6 +31,7 @@ export class MenuService {
       where: { id },
       relations: {
         category: true,
+        option_value: true,
       }
     })
 
@@ -89,6 +91,7 @@ export class MenuService {
       },
       relations: {
         category: true,
+        option_value: true,
       }
     })
 

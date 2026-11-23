@@ -1,5 +1,6 @@
 import { Category } from "src/modules/categories/entities/category.entity";
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { OptionValue } from "src/modules/option_value/entities/option_value.entity";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity("menu")
 export class Menu {
@@ -18,6 +19,9 @@ export class Menu {
   @ManyToOne(() => Category, (category) => category.menu, { onDelete: "SET NULL" })
   @JoinColumn({ name: "category_id" })
   category: Category;
+
+  @OneToMany(() => OptionValue, (op) => op.menu)
+  option_value: OptionValue[];
 
   @Column()
   price: number;
