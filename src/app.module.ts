@@ -6,6 +6,8 @@ import { AuthModule } from './modules/auth/auth.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { MenuModule } from './modules/menu/menu.module';
 import { OptionValueModule } from './modules/option_value/option_value.module';
+import { VouchersModule } from './modules/vouchers/vouchers.module';
+import { OrdersModule } from './modules/orders/orders.module';
 
 @Module({
   imports: [
@@ -25,6 +27,8 @@ import { OptionValueModule } from './modules/option_value/option_value.module';
     CategoriesModule,
     MenuModule,
     OptionValueModule,
+    VouchersModule,
+    OrdersModule,
     // Các module tính năng khác
   ],
 })
